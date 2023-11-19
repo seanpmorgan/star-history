@@ -1,13 +1,13 @@
 [package]
 name = "star-history"
-version = "1.0.15"
-authors = ["David Tolnay <dtolnay@gmail.com>"]
+version = "1.1.0"
+authors = ["Sean Morgan <seanmorgan@outlook.com", "David Tolnay <dtolnay@gmail.com>"]
 categories = ["command-line-utilities"]
 description = "Graph history of GitHub stars of a user or repo over time"
 edition = "2021"
 exclude = ["screenshots"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/dtolnay/star-history"
+repository = "https://github.com/seanpmorgan/star-history"
 
 [dependencies]
 anyhow = "1.0"

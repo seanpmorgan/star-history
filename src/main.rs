@@ -485,7 +485,7 @@ fn try_main(log: &mut Log) -> Result<()> {
     }
 
     let mut data = String::new();
-    data += "var data = [\n";
+    data += "[\n";
     for arg in &args {
         data += "      {\"name\":\"";
         data += &arg.to_string();
@@ -498,12 +498,23 @@ fn try_main(log: &mut Log) -> Result<()> {
             data += &(i.saturating_sub((star.time == now) as usize)).to_string();
             data += "},\n";
         }
-        data += "      ]},\n";
+        // remove training comma
+        data.pop();
+        data.pop();
+        data += "      ]},";
     }
-    data += "    ];";
+    // remove training comma
+    data.pop();
+    data += "    ]";
 
-    let html = include_str!("index.html").replace("var data = [];", &data);
+    // Write data as JSON for futher processing
     let dir = env::temp_dir().join("star-history");
+    let data_path = dir.join(format!("data-{}.json", now.timestamp_millis()));
+    fs::write(&data_path, data.clone())?;
+
+    // Write HTML
+    let d3_data = ["var data = ", &data].join("");
+    let html = include_str!("index.html").replace("var data = [];", &d3_data);
     fs::create_dir_all(&dir)?;
     let path = dir.join(format!("{}.html", now.timestamp_millis()));
     fs::write(&path, html)?;
